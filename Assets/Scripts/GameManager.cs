@@ -8,7 +8,7 @@ public class GameManager : Singleton<GameManager>
 {
 	[SerializeField] GameObject titleUI;
 	[SerializeField] TMP_Text livesUI;
-	[SerializeField] TMP_Text timerUI;
+	//[SerializeField] TMP_Text timerUI;
 	[SerializeField] Slider healthUI;
 
 	[SerializeField] FloatVariable health;
@@ -29,8 +29,9 @@ public class GameManager : Singleton<GameManager>
 	}
 
 	public State state = State.TITLE;
-	[SerializeField] float timer = 0;
+	//[SerializeField] float timer = 0;
     [SerializeField] int lives = 0;
+	[SerializeField] AudioSource musicSource;
 
 	public int Lives {  
 		get { return lives; } 
@@ -40,15 +41,15 @@ public class GameManager : Singleton<GameManager>
 		} 
 	}
 
-	public float Timer
-	{
-		get { return timer; }
-		set 
-		{ 
-			timer = value;
-			timerUI.text = string.Format("{0:F1}", timer); //timer.ToString();
-		}
-	}
+	//public float Timer
+	//{
+	//	get { return timer; }
+	//	set 
+	//	{ 
+	//		timer = value;
+	//		timerUI.text = string.Format("{0:F1}", timer); //timer.ToString();
+	//	}
+	//}
 
     private void OnEnable()
     {
@@ -62,7 +63,7 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
 	{
-
+		musicSource = GetComponent<AudioSource>();
 	}
 
 	void Update()
@@ -76,23 +77,26 @@ public class GameManager : Singleton<GameManager>
 				break;
 			case State.START_GAME:
 				titleUI.SetActive(false);
-				timer = 60;
+				//timer = 60;
 				Lives = 3;
 				health.value = 100;
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
+				musicSource.Play();
 				gameStartEvent.RaiseEvent();
 				respawnEvent.RaiseEvent(respawn);
+				EventManager.OnTimerStart();
 				state = State.PLAY_GAME;
 				break;
 			case State.PLAY_GAME:
-				Timer = Timer - Time.deltaTime;
-				if (Timer <= 0)
-				{
-					state = State.GAME_OVER;
-				}
+				//Timer = Timer + Time.deltaTime;
+				//if (Timer <= 0)
+				//{
+				//	state = State.GAME_OVER;
+				//}
 				break;
 			case State.GAME_OVER:
+				musicSource.Stop();
 				break;
 			default:
 				break;
@@ -113,6 +117,6 @@ public class GameManager : Singleton<GameManager>
 
 	public void OnAddPoints(int points)
 	{
-		print(points);
+		//print(points);
 	}
 }
