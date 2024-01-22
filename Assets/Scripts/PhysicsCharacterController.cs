@@ -6,8 +6,8 @@ using UnityEngine;
 public class PhysicsCharacterController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField][Range(1, 10)] float maxForce = 5;
-    [SerializeField][Range(1, 10)] float jumpForce = 5;
+    [SerializeField][Range(1, 100)] float maxForce = 5;
+    [SerializeField][Range(1, 100)] float jumpForce = 5;
     [SerializeField] Transform view;
     [Header("Collision")]
     [SerializeField][Range(0, 5)] float rayLength = 1;
@@ -18,7 +18,6 @@ public class PhysicsCharacterController : MonoBehaviour
     
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -48,5 +47,11 @@ public class PhysicsCharacterController : MonoBehaviour
     {
         Debug.DrawRay(transform.position, Vector3.down * rayLength, Color.red);
         return Physics.Raycast(transform.position, Vector3.down, rayLength, groundLayerMask);
+    }
+
+    public void Reset()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
     }
 }
