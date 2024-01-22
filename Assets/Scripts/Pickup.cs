@@ -6,10 +6,12 @@ public class Pickup : MonoBehaviour
 {
     [SerializeField] GameObject pickupPrefab = null;
     [SerializeField] AudioClip clip = null;
-    
+    [SerializeField] int points = 0;
+    //[SerializeField] AudioSource pickupAudio = null;
+
     private void Start()
     {
-        
+        //pickupAudio = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -21,7 +23,7 @@ public class Pickup : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<Player>(out Player player))
         {
-            player.AddPoints(10);
+            player.AddPoints(points);
         }
 
         if (pickupPrefab != null)
@@ -29,9 +31,11 @@ public class Pickup : MonoBehaviour
             Instantiate(pickupPrefab, transform.position, Quaternion.identity);
         }
 
+        //if (pickupAudio!= null)
         if (clip != null)
         {
             AudioSource.PlayClipAtPoint(clip, player.transform.position);
+            //pickupAudio.PlayOneShot(pickupAudio.clip);
         }
         
         Destroy(gameObject);

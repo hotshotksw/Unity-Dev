@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>
 		get { return lives; } 
 		set { 
 			lives = value; 
-			livesUI.text = "Lives: " + lives.ToString(); 
+			livesUI.text = lives.ToString(); 
 		} 
 	}
 
@@ -74,11 +74,11 @@ public class GameManager : Singleton<GameManager>
 				titleUI.SetActive(true);
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
-				break;
+                Lives = 3;
+                break;
 			case State.START_GAME:
 				titleUI.SetActive(false);
 				//timer = 60;
-				Lives = 3;
 				health.value = 100;
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
@@ -112,11 +112,16 @@ public class GameManager : Singleton<GameManager>
 
 	public void OnPlayerDead()
 	{
-		state = State.START_GAME;
+		Lives--;
+        state = State.START_GAME;
+        if ( Lives < 0 )
+		{
+			state = State.TITLE;
+        }
 	}
 
 	public void OnAddPoints(int points)
 	{
-		//print(points);
+		print(points);
 	}
 }
