@@ -38,6 +38,11 @@ public class PhysicsCharacterController : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             force *= 0.25f;
         }
+
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            force *= 3f;
+        }
     }
 
     private void FixedUpdate()
