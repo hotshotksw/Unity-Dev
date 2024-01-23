@@ -10,6 +10,7 @@ public class PhysicsCharacterController : MonoBehaviour
     [SerializeField][Range(1, 100)] float jumpForce = 5;
     [SerializeField][Range(1, 2)] float turnSpeed = 1;
     [SerializeField] Transform view;
+    [SerializeField] AudioSource jumpSound;
     [Header("Collision")]
     [SerializeField][Range(0, 5)] float rayLength = 1;
     [SerializeField] LayerMask groundLayerMask;
@@ -37,6 +38,10 @@ public class PhysicsCharacterController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             force *= 0.25f;
+            if(jumpSound.clip != null)
+            {
+                jumpSound.PlayOneShot(jumpSound.clip);
+            }
         }
 
         if(Input.GetKey(KeyCode.LeftShift))

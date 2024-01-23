@@ -17,7 +17,7 @@ public class OrbitCamera : MonoBehaviour
     private void Start()
     {
         pitch = defaultPitch;
-        transform.rotation = target.transform.rotation;
+        //transform.rotation = target.transform.rotation;
     }
 
     void Update()
