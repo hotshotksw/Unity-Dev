@@ -32,7 +32,7 @@ public class AINavPath : MonoBehaviour
 		return node.GetRandomNeighbor();
 	}
 
-	/*
+
 	public AINavNode GetNearestAINavNode()
 	{
 		var nodes = AINavNode.GetAINavNodes().ToList();
@@ -52,5 +52,5 @@ public class AINavPath : MonoBehaviour
 		float squaredRangeB = (b.transform.position - transform.position).sqrMagnitude;
 		return squaredRangeA.CompareTo(squaredRangeB);
 	}
-	*/
+
 }

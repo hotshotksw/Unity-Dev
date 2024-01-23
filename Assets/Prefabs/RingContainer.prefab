@@ -354,7 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupPrefab: {fileID: 4859426191831374875, guid: 6ee85c4600edc3740aa4e4e8a5929d5a, type: 3}
   clip: {fileID: 8300000, guid: 43b8b8cc62d8b57428083392f4343fd6, type: 3}
-  points: 50
+  points: 10
 --- !u!114 &7656643277423603978
 MonoBehaviour:
   m_ObjectHideFlags: 0

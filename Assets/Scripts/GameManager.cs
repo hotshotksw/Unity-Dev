@@ -25,13 +25,16 @@ public class GameManager : Singleton<GameManager>
 		TITLE,
 		START_GAME,
 		PLAY_GAME,
-		GAME_OVER
+		GAME_OVER,
+		WIN
 	}
 
 	public State state = State.TITLE;
 	//[SerializeField] float timer = 0;
     [SerializeField] int lives = 0;
 	[SerializeField] AudioSource musicSource;
+	[SerializeField] AudioClip[] musicList;
+	[SerializeField] GameObject[] enemies;
 
 	public int Lives {  
 		get { return lives; } 
@@ -63,7 +66,11 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
 	{
-		musicSource = GetComponent<AudioSource>();
+		PlayMusic(1);
+		foreach (var enemy in enemies)
+		{
+			enemy.gameObject.SetActive(false);
+		}
 	}
 
 	void Update()
@@ -82,21 +89,17 @@ public class GameManager : Singleton<GameManager>
 				health.value = 100;
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
-				musicSource.Play();
 				gameStartEvent.RaiseEvent();
 				respawnEvent.RaiseEvent(respawn);
 				EventManager.OnTimerStart();
 				state = State.PLAY_GAME;
 				break;
 			case State.PLAY_GAME:
-				//Timer = Timer + Time.deltaTime;
-				//if (Timer <= 0)
-				//{
-				//	state = State.GAME_OVER;
-				//}
 				break;
 			case State.GAME_OVER:
 				musicSource.Stop();
+				break;
+			case State.WIN:
 				break;
 			default:
 				break;
@@ -105,8 +108,15 @@ public class GameManager : Singleton<GameManager>
 		healthUI.value = health.value / 100.0f;
 	}
 
+	
+
 	public void OnStartGame()
 	{
+		PlayMusic(1);
+		foreach (var enemy in enemies)
+		{
+			enemy.gameObject.SetActive(true);
+		}
 		state = State.START_GAME;
 	}
 
@@ -123,5 +133,12 @@ public class GameManager : Singleton<GameManager>
 	public void OnAddPoints(int points)
 	{
 		print(points);
+	}
+
+	public void PlayMusic(int id)
+	{
+		musicSource.Stop();
+		musicSource.clip = musicList[id];
+		musicSource.Play();
 	}
 }

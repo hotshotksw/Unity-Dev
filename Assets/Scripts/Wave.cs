@@ -18,7 +18,7 @@ public class Wave : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime * rate;
-        float wave = Mathf.Sin(time) * amplitude;
+        float wave = Mathf.Sin(time + transform.position.x) * amplitude;
 
         transform.position = origin + (Vector3.up * wave);
     }

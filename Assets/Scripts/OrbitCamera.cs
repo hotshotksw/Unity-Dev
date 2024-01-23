@@ -37,6 +37,7 @@ public class OrbitCamera : MonoBehaviour
 
     public void OnRespawn(GameObject respawn)
     {
-        transform.rotation = respawn.transform.rotation;
+        //transform.rotation = respawn.transform.rotation;
+        yaw = respawn.transform.rotation.eulerAngles.y;
     }
 }
