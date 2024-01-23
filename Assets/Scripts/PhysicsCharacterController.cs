@@ -8,6 +8,7 @@ public class PhysicsCharacterController : MonoBehaviour
     [Header("Movement")]
     [SerializeField][Range(1, 100)] float maxForce = 5;
     [SerializeField][Range(1, 100)] float jumpForce = 5;
+    [SerializeField][Range(1, 2)] float turnSpeed = 1;
     [SerializeField] Transform view;
     [Header("Collision")]
     [SerializeField][Range(0, 5)] float rayLength = 1;
@@ -26,7 +27,7 @@ public class PhysicsCharacterController : MonoBehaviour
         Vector3 direction = Vector3.zero;
 
         direction.x = Input.GetAxis("Horizontal");
-        direction.z = Input.GetAxis("Vertical");
+        direction.z = Input.GetAxis("Vertical") * 1.5f;
 
         Quaternion yrotation = Quaternion.AngleAxis(view.rotation.eulerAngles.y, Vector3.up);
         force = yrotation * direction * maxForce;
