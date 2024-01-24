@@ -1,3 +1,4 @@
+using Palmmedia.ReportGenerator.Core;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,7 +13,8 @@ public class GameManager : Singleton<GameManager>
         START_GAME,
         PLAY_GAME,
         GAME_OVER,
-        WIN
+        WIN,
+		PAUSE
     }
 
     [Header("UI")]
@@ -21,8 +23,10 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField] GameObject GameUI;
 	[SerializeField] GameObject WinUI;
 	[SerializeField] TMP_Text livesUI;
-	//[SerializeField] TMP_Text timerUI;
 	[SerializeField] Slider healthUI;
+
+	[SerializeField] TMP_Text levelTime;
+	[SerializeField] TMP_Text winTime;
 
     [Header("Variables")]
     [SerializeField] FloatVariable health;
@@ -97,20 +101,26 @@ public class GameManager : Singleton<GameManager>
 				if (timer >= 2.0f)
 				{
 					LevelUI.SetActive(false);
-					GameUI.SetActive(true);
 					health.value = 100;
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
                     gameStartEvent.RaiseEvent();
 					SpawnPickups();
 					SpawnEnemies();
                     respawnEvent.RaiseEvent(respawn);
                     state = State.PLAY_GAME;
                 }
-				//timer = 60;
 				break;
 			case State.PLAY_GAME:
                 EventManager.OnTimerStart();
+                Time.timeScale = 1;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+
+                if (Input.GetKeyDown(KeyCode.Escape)) 
+				{
+                    GameUI.SetActive(false);
+					winTime.text = levelTime.text;
+                    state = State.PAUSE; 
+				}
                 break;
 			case State.GAME_OVER:
 				EventManager.OnTimerStop();
@@ -120,6 +130,7 @@ public class GameManager : Singleton<GameManager>
 				WinUI.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+				winTime.text = levelTime.text;
                 if (!musicPlayed)
 				{
 					musicSource.Stop();
@@ -127,6 +138,18 @@ public class GameManager : Singleton<GameManager>
 					musicPlayed=true;
 				}
 				break;
+			case State.PAUSE:
+				Time.timeScale = 0;
+                EventManager.OnTimerStop();
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+                if (Input.GetKeyDown(KeyCode.Escape)) 
+				{
+                    GameUI.SetActive(true);
+                    state = State.PLAY_GAME; 
+				}
+                break;
 			default:
 				break;
 		}
