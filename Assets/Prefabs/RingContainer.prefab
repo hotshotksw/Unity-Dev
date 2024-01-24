@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 4092146054536950030}
   m_Layer: 0
   m_Name: RingContainer
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

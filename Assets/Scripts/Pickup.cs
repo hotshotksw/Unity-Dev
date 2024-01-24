@@ -37,7 +37,7 @@ public class Pickup : MonoBehaviour
             AudioSource.PlayClipAtPoint(clip, player.transform.position);
             //pickupAudio.PlayOneShot(pickupAudio.clip);
         }
-        
-        Destroy(gameObject);
+
+        gameObject.SetActive(false);
     }
 }

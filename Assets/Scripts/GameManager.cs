@@ -6,35 +6,43 @@ using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
-	[SerializeField] GameObject titleUI;
+    public enum State
+    {
+        TITLE,
+        START_GAME,
+        PLAY_GAME,
+        GAME_OVER,
+        WIN
+    }
+
+    [Header("UI")]
+    [SerializeField] GameObject titleUI;
+	[SerializeField] GameObject LevelUI;
+	[SerializeField] GameObject GameUI;
+	[SerializeField] GameObject WinUI;
 	[SerializeField] TMP_Text livesUI;
 	//[SerializeField] TMP_Text timerUI;
 	[SerializeField] Slider healthUI;
 
-	[SerializeField] FloatVariable health;
-
+    [Header("Variables")]
+    [SerializeField] FloatVariable health;
 	[SerializeField] GameObject respawn = null;
 
-	[Header("Events")]
+    public State state = State.TITLE;
+    //[SerializeField] float timer = 0;
+    [SerializeField] int lives = 0;
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioClip[] musicList;
+    bool musicPlayed = false;
+    [SerializeField] GameObject[] enemies;
+    GameObject[] pickups;
+
+    private float timer = 0.0f;
+
+    [Header("Events")]
 	//[SerializeField] IntEvent scoreEvent;
 	[SerializeField] VoidEvent gameStartEvent;
 	[SerializeField] GameObjectEvent respawnEvent;
-
-	public enum State
-	{
-		TITLE,
-		START_GAME,
-		PLAY_GAME,
-		GAME_OVER,
-		WIN
-	}
-
-	public State state = State.TITLE;
-	//[SerializeField] float timer = 0;
-    [SerializeField] int lives = 0;
-	[SerializeField] AudioSource musicSource;
-	[SerializeField] AudioClip[] musicList;
-	[SerializeField] GameObject[] enemies;
 
 	public int Lives {  
 		get { return lives; } 
@@ -44,33 +52,24 @@ public class GameManager : Singleton<GameManager>
 		} 
 	}
 
-	//public float Timer
-	//{
-	//	get { return timer; }
-	//	set 
-	//	{ 
-	//		timer = value;
-	//		timerUI.text = string.Format("{0:F1}", timer); //timer.ToString();
-	//	}
-	//}
-
     private void OnEnable()
     {
-        //scoreEvent.Subscribe(OnAddPoints);
     }
     private void OnDisable()
     {
-        //scoreEvent.Unsubscribe(OnAddPoints);
     }
 
 
     void Start()
 	{
-		PlayMusic(1);
-		foreach (var enemy in enemies)
+		pickups = GameObject.FindGameObjectsWithTag("Pickup");
+
+        foreach (var enemy in enemies)
 		{
 			enemy.gameObject.SetActive(false);
 		}
+
+		DespawnPickups();
 	}
 
 	void Update()
@@ -79,27 +78,54 @@ public class GameManager : Singleton<GameManager>
 		{
 			case State.TITLE:
 				titleUI.SetActive(true);
+                
+                if (!musicPlayed)
+				{
+                    PlayMusic(0);
+                    musicPlayed = true;
+                }
+				timer = 0;
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
                 Lives = 3;
                 break;
 			case State.START_GAME:
+                musicPlayed = false;
 				titleUI.SetActive(false);
+				LevelUI.SetActive(true);
+				timer += Time.deltaTime;
+				if (timer >= 2.0f)
+				{
+					LevelUI.SetActive(false);
+					GameUI.SetActive(true);
+					health.value = 100;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                    gameStartEvent.RaiseEvent();
+					SpawnPickups();
+					SpawnEnemies();
+                    respawnEvent.RaiseEvent(respawn);
+                    state = State.PLAY_GAME;
+                }
 				//timer = 60;
-				health.value = 100;
-				Cursor.lockState = CursorLockMode.Locked;
-				Cursor.visible = false;
-				gameStartEvent.RaiseEvent();
-				respawnEvent.RaiseEvent(respawn);
-				EventManager.OnTimerStart();
-				state = State.PLAY_GAME;
 				break;
 			case State.PLAY_GAME:
-				break;
+                EventManager.OnTimerStart();
+                break;
 			case State.GAME_OVER:
+				EventManager.OnTimerStop();
 				musicSource.Stop();
 				break;
 			case State.WIN:
+				WinUI.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                if (!musicPlayed)
+				{
+					musicSource.Stop();
+					musicSource.PlayOneShot(musicList[2]);
+					musicPlayed=true;
+				}
 				break;
 			default:
 				break;
@@ -108,26 +134,66 @@ public class GameManager : Singleton<GameManager>
 		healthUI.value = health.value / 100.0f;
 	}
 
-	
-
-	public void OnStartGame()
+	public void SpawnEnemies()
 	{
-		PlayMusic(1);
-		foreach (var enemy in enemies)
-		{
-			enemy.gameObject.SetActive(true);
-		}
+        foreach (var enemy in enemies)
+        {
+            enemy.gameObject.SetActive(true);
+        }
+    }
+
+	public void DespawnPickups()
+	{
+        foreach (var pickup in pickups)
+        {
+            pickup.SetActive(false);
+        }
+    }
+
+    public void SpawnPickups()
+    {
+        foreach (var pickup in pickups)
+        {
+            pickup.SetActive(true);
+        }
+    }
+
+    public void OnStartGame()
+	{
+        foreach (var pickup in pickups)
+        {
+            pickup.SetActive(false);
+        }
+        PlayMusic(1);
 		state = State.START_GAME;
 	}
 
 	public void OnPlayerDead()
 	{
-		Lives--;
-        state = State.START_GAME;
-        if ( Lives < 0 )
+		if (state != State.WIN)
 		{
-			state = State.TITLE;
+            Lives--;
+            state = State.START_GAME;
+            if (Lives < 0)
+            {
+                state = State.TITLE;
+                return;
+            }
         }
+	}
+
+	public void OnPlayerWin()
+	{
+		state = State.WIN;
+        GameUI.SetActive(false);
+        EventManager.OnTimerStop();
+    }
+
+	public void OnWinContinue()
+	{
+		WinUI.SetActive(false);
+		musicPlayed = false;
+		state = State.TITLE;
 	}
 
 	public void OnAddPoints(int points)

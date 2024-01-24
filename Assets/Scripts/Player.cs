@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamagable
 {
     [SerializeField] TMP_Text scoreText;
+    [SerializeField] TMP_Text winText;
     [SerializeField] FloatVariable health;
     [SerializeField] PhysicsCharacterController characterController;
     [Header("Events")]
@@ -23,15 +24,19 @@ public class Player : MonoBehaviour, IDamagable
             if (score == 0)
             {
                 scoreText.text = "000";
+                winText.text = "000";
             } else if (score < 10)
             {
                 scoreText.text = "00" + score.ToString();
+                winText.text = "00" + score.ToString();
             } else if (score < 100)
             {
                 scoreText.text = "0" + score.ToString();
+                winText.text = "0" + score.ToString();
             } else
             {
                 scoreText.text = score.ToString();
+                winText.text = score.ToString();
             }
             
             scoreEvent.RaiseEvent(score);

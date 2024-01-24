@@ -12,7 +12,7 @@ public class Timer : MonoBehaviour
     }
     [SerializeField] private TimerType timerType;
 
-    [SerializeField] private float timeToDisplay = 60.0f;
+    [SerializeField] public float timeToDisplay = 60.0f;
 
     private bool isRunning;
 
