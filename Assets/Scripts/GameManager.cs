@@ -101,6 +101,7 @@ public class GameManager : Singleton<GameManager>
 				if (timer >= 2.0f)
 				{
 					LevelUI.SetActive(false);
+					GameUI.SetActive(true);
 					health.value = 100;
                     gameStartEvent.RaiseEvent();
 					SpawnPickups();
@@ -117,9 +118,7 @@ public class GameManager : Singleton<GameManager>
 
                 if (Input.GetKeyDown(KeyCode.Escape)) 
 				{
-                    GameUI.SetActive(false);
-					winTime.text = levelTime.text;
-                    state = State.PAUSE; 
+					Pause(true);
 				}
                 break;
 			case State.GAME_OVER:
@@ -146,8 +145,7 @@ public class GameManager : Singleton<GameManager>
 
                 if (Input.GetKeyDown(KeyCode.Escape)) 
 				{
-                    GameUI.SetActive(true);
-                    state = State.PLAY_GAME; 
+					Pause(false);
 				}
                 break;
 			default:
@@ -155,6 +153,19 @@ public class GameManager : Singleton<GameManager>
 		}
 
 		healthUI.value = health.value / 100.0f;
+	}
+
+	public void Pause(bool p)
+	{
+		if(p)
+		{
+            GameUI.SetActive(false);
+            state = State.PAUSE;
+        } else
+		{
+            GameUI.SetActive(true);
+            state = State.PLAY_GAME;
+        }
 	}
 
 	public void SpawnEnemies()
