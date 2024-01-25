@@ -22,8 +22,12 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField] GameObject LevelUI;
 	[SerializeField] GameObject GameUI;
 	[SerializeField] GameObject WinUI;
+	[SerializeField] GameObject PauseUI;
+	[SerializeField] GameObject GameOverUI;
 	[SerializeField] TMP_Text livesUI;
 	[SerializeField] Slider healthUI;
+
+	[SerializeField] GameObject[] UIList;
 
 	[SerializeField] TMP_Text levelTime;
 	[SerializeField] TMP_Text winTime;
@@ -81,13 +85,18 @@ public class GameManager : Singleton<GameManager>
 		switch (state)
 		{
 			case State.TITLE:
-				titleUI.SetActive(true);
+				LoadScreen(0);
                 
                 if (!musicPlayed)
 				{
                     PlayMusic(0);
                     musicPlayed = true;
                 }
+
+				if(Input.GetKeyDown(KeyCode.Escape))
+				{
+					QuitGame();
+				}
 				timer = 0;
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
@@ -95,14 +104,12 @@ public class GameManager : Singleton<GameManager>
                 break;
 			case State.START_GAME:
                 musicPlayed = false;
-				titleUI.SetActive(false);
-				LevelUI.SetActive(true);
-				timer += Time.deltaTime;
+                LoadScreen(1);
+                timer += Time.deltaTime;
 				if (timer >= 2.0f)
 				{
-					LevelUI.SetActive(false);
-					GameUI.SetActive(true);
-					health.value = 100;
+                    LoadScreen(2);
+                    health.value = 100;
                     gameStartEvent.RaiseEvent();
 					SpawnPickups();
 					SpawnEnemies();
@@ -124,9 +131,19 @@ public class GameManager : Singleton<GameManager>
 			case State.GAME_OVER:
 				EventManager.OnTimerStop();
 				musicSource.Stop();
-				break;
+                LoadScreen(5);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+                if (!musicPlayed)
+                {
+                    musicSource.Stop();
+                    musicSource.PlayOneShot(musicList[3]);
+                    musicPlayed = true;
+                }
+                break;
 			case State.WIN:
-				WinUI.SetActive(true);
+                LoadScreen(4);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 				winTime.text = levelTime.text;
@@ -159,11 +176,11 @@ public class GameManager : Singleton<GameManager>
 	{
 		if(p)
 		{
-            GameUI.SetActive(false);
+            LoadScreen(3);
             state = State.PAUSE;
         } else
 		{
-            GameUI.SetActive(true);
+            LoadScreen(2);
             state = State.PLAY_GAME;
         }
 	}
@@ -176,7 +193,15 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-	public void DespawnPickups()
+    public void DespawnEnemies()
+    {
+        foreach (var enemy in enemies)
+        {
+            enemy.gameObject.SetActive(false);
+        }
+    }
+
+    public void DespawnPickups()
 	{
         foreach (var pickup in pickups)
         {
@@ -210,7 +235,8 @@ public class GameManager : Singleton<GameManager>
             state = State.START_GAME;
             if (Lives < 0)
             {
-                state = State.TITLE;
+				musicPlayed = false;
+				state = State.GAME_OVER;
                 return;
             }
         }
@@ -219,13 +245,11 @@ public class GameManager : Singleton<GameManager>
 	public void OnPlayerWin()
 	{
 		state = State.WIN;
-        GameUI.SetActive(false);
         EventManager.OnTimerStop();
     }
 
 	public void OnWinContinue()
 	{
-		WinUI.SetActive(false);
 		musicPlayed = false;
 		state = State.TITLE;
 	}
@@ -240,5 +264,24 @@ public class GameManager : Singleton<GameManager>
 		musicSource.Stop();
 		musicSource.clip = musicList[id];
 		musicSource.Play();
+	}
+
+	public void QuitGame()
+	{
+		state = State.TITLE;
+	}
+
+	public void LoadScreen(int selection)
+	{
+		for(int i = 0; i < UIList.Length;i++)
+		{
+			if (UIList[selection] == UIList[i])
+			{
+				UIList[i].SetActive(true);
+			} else
+			{
+				UIList[i].SetActive(false);
+			}
+		}
 	}
 }
