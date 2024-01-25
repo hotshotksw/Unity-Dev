@@ -15,9 +15,11 @@ public class AINavNode : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		Debug.Log("Enter");
 		if (other.gameObject.TryGetComponent<AINavPath>(out AINavPath navPath))
 		{
-			if (navPath.targetNode == this)
+			Debug.Log(navPath.ToString());
+            if (navPath.targetNode == this)
 			{
 				navPath.targetNode = GetRandomNeighbor();
 			}

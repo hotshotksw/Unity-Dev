@@ -1,0 +1,113 @@
+# Blender 4.0.0 MTL File: 'None'
+# www.blender.org
+
+newmtl tornado_PDA
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd mis_obj_tornado_PDA_body_dif_HD.png
+map_d mis_obj_tornado_PDA_body_dif_HD.png
+
+newmtl tornado_body
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 9
+map_Kd mis_obj_tornado_body_dif_HD.png
+map_Ks mis_obj_tornado_body_spc_HD.png
+map_Ns mis_obj_tornado_body_fal_HD.png
+map_d mis_obj_tornado_body_dif_HD.png
+map_Bump -bm 1.000000 mis_obj_tornado_body_nrm_HD.png
+
+newmtl tornado_body2
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 9
+map_Kd mis_obj_tornado02_body_dif_HD.png
+map_Ks mis_obj_tornado02_body_spc_HD.png
+map_d mis_obj_tornado02_body_dif_HD.png
+
+newmtl tornado_glass
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 9
+map_Kd mis_obj_tornado_ref_HD.png
+map_Ks mis_obj_tornado02_body_spc_HD.png
+map_d mis_obj_tornado_ref_HD.png
+
+newmtl tornado_handle
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd mis_obj_tornado_handle_dif_HD.png
+map_d mis_obj_tornado_handle_dif_HD.png
+
+newmtl tornado_light
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd mis_obj_tornado_light_ems_HD.png
+map_d mis_obj_tornado_light_ems_HD.png
+
+newmtl tornado_logo1
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd mis_obj_tornado_logo01_dif_HD.png
+map_d mis_obj_tornado_logo01_dif_HD.png
+
+newmtl tornado_logo2
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd mis_obj_tornado_logo02_dif_HD.png
+map_d mis_obj_tornado_logo02_dif_HD.png
+
+newmtl tornado_monitor
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd mis_obj_tornado_PDA_ems_HD.png
+map_d mis_obj_tornado_PDA_ems_HD.png
+
+newmtl tornado_propeller
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 9
+map_Kd mis_obj_tornado_propeller_dif_HD.png
+map_Ks mis_obj_tornado_propeller_spc_HD.png
+map_d mis_obj_tornado_propeller_dif_HD.png
+
+newmtl tornado_propeller2
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd mis_obj_tornado_propeller2_dif.png
+map_d mis_obj_tornado_propeller2_dif.png
