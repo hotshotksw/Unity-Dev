@@ -85,8 +85,9 @@ public class GameManager : Singleton<GameManager>
 		{
 			case State.TITLE:
 				LoadScreen(0);
-				
-                
+                Time.timeScale = 1;
+                Lives = 3;
+
                 if (!musicPlayed)
 				{
                     PlayMusic(0);
@@ -100,7 +101,6 @@ public class GameManager : Singleton<GameManager>
 				timer = 0;
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
-                Lives = 3;
                 break;
 			case State.START_GAME:
                 musicPlayed = false;
@@ -225,7 +225,7 @@ public class GameManager : Singleton<GameManager>
         }
         PlayMusic(1);
 		timer = 0;
-		lives = 3;
+		
 		state = State.START_GAME;
 	}
 
