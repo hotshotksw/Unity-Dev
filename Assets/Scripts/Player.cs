@@ -79,6 +79,7 @@ public class Player : MonoBehaviour, IDamagable
 
     public void OnRespawn(GameObject respawn)
     {
+        Score = 0;
         transform.position = respawn.transform.position;
         transform.rotation = respawn.transform.rotation;
         characterController.Reset();

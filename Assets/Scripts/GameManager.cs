@@ -1,4 +1,3 @@
-using Palmmedia.ReportGenerator.Core;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -86,6 +85,7 @@ public class GameManager : Singleton<GameManager>
 		{
 			case State.TITLE:
 				LoadScreen(0);
+				
                 
                 if (!musicPlayed)
 				{
@@ -95,7 +95,7 @@ public class GameManager : Singleton<GameManager>
 
 				if(Input.GetKeyDown(KeyCode.Escape))
 				{
-					QuitGame();
+					Application.Quit();
 				}
 				timer = 0;
 				Cursor.lockState = CursorLockMode.None;
@@ -224,6 +224,8 @@ public class GameManager : Singleton<GameManager>
             pickup.SetActive(false);
         }
         PlayMusic(1);
+		timer = 0;
+		lives = 3;
 		state = State.START_GAME;
 	}
 
@@ -246,12 +248,14 @@ public class GameManager : Singleton<GameManager>
 	{
 		state = State.WIN;
         EventManager.OnTimerStop();
+        
     }
 
 	public void OnWinContinue()
 	{
 		musicPlayed = false;
-		state = State.TITLE;
+        EventManager.OnTimerUpdate(0);
+        state = State.TITLE;
 	}
 
 	public void OnAddPoints(int points)
@@ -268,7 +272,10 @@ public class GameManager : Singleton<GameManager>
 
 	public void QuitGame()
 	{
-		state = State.TITLE;
+		LoadScreen(0);
+		EventManager.OnTimerStop();
+        EventManager.OnTimerUpdate(0);
+        state = State.TITLE;
 	}
 
 	public void LoadScreen(int selection)

@@ -55,7 +55,7 @@ public class PhysicsCharacterController : MonoBehaviour
         rb.AddForce(force, ForceMode.Force);
     }
 
-    private bool CheckGround()
+    public bool CheckGround()
     {
         Debug.DrawRay(transform.position, Vector3.down * rayLength, Color.red);
         return Physics.Raycast(transform.position, Vector3.down, rayLength, groundLayerMask);
