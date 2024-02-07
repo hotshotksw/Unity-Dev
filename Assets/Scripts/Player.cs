@@ -68,7 +68,7 @@ public class Player : MonoBehaviour, IDamagable
         health.value -= damage;
     }
 
-    public void TakeDamage(float damage)
+    public void ApplyDamage(float damage)
     {
         health.value -= damage;
         if (health.value <= 0)
