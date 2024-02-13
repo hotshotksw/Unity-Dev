@@ -197,7 +197,7 @@ public class GameManager : Singleton<GameManager>
 				break;
 		}
 
-		healthUI.value = health.value / 100.0f;
+		if (healthUI != null) healthUI.value = health.value / 100.0f;
 	}
 
 	public void Pause(bool p)
