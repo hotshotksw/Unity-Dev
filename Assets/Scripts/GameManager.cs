@@ -33,7 +33,8 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Variables")]
     [SerializeField] FloatVariable health;
-	[SerializeField] GameObject respawn = null;
+    [SerializeField] IntVariable score;
+	[SerializeField] GameObject respawn;
 
     public State state = State.TITLE;
     //[SerializeField] float timer = 0;
@@ -84,24 +85,32 @@ public class GameManager : Singleton<GameManager>
 		switch (state)
 		{
 			case State.TITLE:
-				LoadScreen(0);
-                Time.timeScale = 1;
-                Lives = 3;
-
-                if (!musicPlayed)
+				if(titleUI != null)
 				{
-                    PlayMusic(0);
-                    musicPlayed = true;
-                }
+					LoadScreen(0);
+					
+				} else
+				{
+					state = State.START_GAME;
+					break;
+				}
+				Time.timeScale = 1;
+				Lives = 3;
 
-				if(Input.GetKeyDown(KeyCode.Escape))
+				if (!musicPlayed)
+				{
+					PlayMusic(0);
+					musicPlayed = true;
+				}
+
+				if (Input.GetKeyDown(KeyCode.Escape))
 				{
 					Application.Quit();
 				}
 				timer = 0;
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
-                break;
+				break;
 			case State.START_GAME:
                 musicPlayed = false;
                 LoadScreen(1);
@@ -131,7 +140,14 @@ public class GameManager : Singleton<GameManager>
 			case State.GAME_OVER:
 				EventManager.OnTimerStop();
 				musicSource.Stop();
-                LoadScreen(5);
+				if (GameOverUI != null)
+				{
+					LoadScreen(5);
+				} else
+				{
+					state = State.TITLE;
+				}
+                
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
@@ -143,8 +159,15 @@ public class GameManager : Singleton<GameManager>
                 }
                 break;
 			case State.WIN:
-                LoadScreen(4);
-                Cursor.lockState = CursorLockMode.None;
+				if (GameOverUI != null)
+				{
+					LoadScreen(4);
+				}
+				else
+				{
+					state = State.TITLE;
+				}
+				Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 				winTime.text = levelTime.text;
                 if (!musicPlayed)
@@ -155,6 +178,11 @@ public class GameManager : Singleton<GameManager>
 				}
 				break;
 			case State.PAUSE:
+				if (PauseUI == null)
+				{
+					Pause(false);
+				}
+
 				Time.timeScale = 0;
                 EventManager.OnTimerStop();
                 Cursor.lockState = CursorLockMode.None;
