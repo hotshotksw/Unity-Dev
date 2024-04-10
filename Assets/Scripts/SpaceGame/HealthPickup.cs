@@ -13,7 +13,7 @@ public class HealthPickup : MonoBehaviour
 		{
 			player.ApplyHealth(health);
 			if (pickupPrefab != null) Instantiate(pickupPrefab, transform.position, Quaternion.identity);
-			Destroy(gameObject);
+			gameObject.SetActive(false);
 		}
 	}
 }

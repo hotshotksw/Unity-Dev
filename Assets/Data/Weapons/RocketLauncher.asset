@@ -21,8 +21,8 @@ MonoBehaviour:
   animTriggerName: 
   animEquipName: 
   rigLayerWeight: []
-  itemPrefab: {fileID: 0}
-  pickupPrefab: {fileID: 0}
+  itemPrefab: {fileID: 6079034692356028686, guid: 838a4896ffe8e6d44a1eac710bafae75, type: 3}
+  pickupPrefab: {fileID: 6079034692356028686, guid: 838a4896ffe8e6d44a1eac710bafae75, type: 3}
   fireRate: 0
   spread: {x: 0.1, y: 0.1, z: 0.1}
   rounds: 0

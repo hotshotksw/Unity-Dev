@@ -9,14 +9,17 @@ public class PlayerShip : MonoBehaviour, IDamagable
     [SerializeField] private Inventory inventory;
 	[SerializeField] private IntVariable score;
 	[SerializeField] private FloatVariable health;
+	[SerializeField] private float healthValue;
 
 	[SerializeField] private GameObject hitPrefab;
 	[SerializeField] private GameObject destroyPrefab;
 
+	[SerializeField] VoidEvent playerDeadEvent = default;
+
 	private void Start()
 	{
 		scoreEvent.Subscribe(AddPoints);
-		health.value = 100;
+		health.value = healthValue;
 	}
 
 	void Update()
@@ -47,7 +50,8 @@ public class PlayerShip : MonoBehaviour, IDamagable
 			{
 				Instantiate(destroyPrefab, gameObject.transform.position, Quaternion.identity);
 			}
-			Destroy(gameObject);
+			playerDeadEvent.RaiseEvent();
+
 		}
 		else
 		{
@@ -61,6 +65,6 @@ public class PlayerShip : MonoBehaviour, IDamagable
 	public void ApplyHealth(float health)
 	{
 		this.health.value += health;
-		this.health.value = Mathf.Min(this.health.value, 100);
+		this.health.value = Mathf.Min(this.health.value, healthValue);
 	}
 }

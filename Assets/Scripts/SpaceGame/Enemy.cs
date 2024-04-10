@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour, IDamagable
 			{
 				Instantiate(destroyPrefab, gameObject.transform.position, Quaternion.identity);
 			}
-			Destroy(gameObject);
+			gameObject.SetActive(false);
 		}
 		else
 		{

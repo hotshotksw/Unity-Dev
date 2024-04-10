@@ -1357,9 +1357,13 @@ GameObject:
   - component: {fileID: 2705321006208837000}
   - component: {fileID: 5151230292969392004}
   - component: {fileID: 4900901890824895456}
+  - component: {fileID: -2116707017945098116}
+  - component: {fileID: -6927933974930709256}
+  - component: {fileID: -6483490409630135754}
+  - component: {fileID: -204937050249372850}
   m_Layer: 0
   m_Name: EnemyShip2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1430,6 +1434,76 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-2116707017945098116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715225301580128315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3da2a988d3c84a469c12ab1a49b9483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 25
+  points: 25
+  scoreEvent: {fileID: 11400000, guid: 3793f73c29c2259469c18540a52eb06c, type: 2}
+  hitPrefab: {fileID: 1804206099813350, guid: 4dd02b5f854b6c84990fbeb810abffe4, type: 3}
+  destroyPrefab: {fileID: 1290715649332758, guid: 587eaecaa621be74486f351c78b4f0a8, type: 3}
+  weapon: {fileID: -6927933974930709256}
+  minFireRate: 1
+  maxFireRate: 3
+--- !u!114 &-6927933974930709256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715225301580128315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304ad85637e39784ab86aaf3dd0a6eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: {fileID: -6483490409630135754}
+  weaponData: {fileID: 11400000, guid: 27df88e3326cddf4fa0cb2d62a8c86de, type: 2}
+  animator: {fileID: 0}
+  ammoTransform: {fileID: 2705321006208837000}
+--- !u!114 &-6483490409630135754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715225301580128315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6008ae978b0ac42b184d4715d86e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Player
+--- !u!135 &-204937050249372850
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715225301580128315}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5.297262
+  m_Center: {x: 0, y: -0.00000059604645, z: 0.00000071525574}
 --- !u!1 &9022733126825272796
 GameObject:
   m_ObjectHideFlags: 0

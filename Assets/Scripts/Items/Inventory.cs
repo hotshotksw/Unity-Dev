@@ -9,9 +9,26 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        currentItem = items[0];
-        currentItem.Equip();
-    }
+		currentItem = items[0];
+		currentItem.Equip();
+	}
+
+    public void nextItem()
+    {
+        if(currentItem == items[0])
+        {
+            currentItem = items[1];
+            currentItem.Equip();
+            return;
+		}
+
+		if (currentItem == items[1])
+		{
+			currentItem = items[0];
+			currentItem.Equip();
+            return;
+		}
+	}
 
     public void OnUse()
     {

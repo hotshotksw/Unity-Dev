@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27d678b865a55ea4a81dc99075cb7881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifespan: 5
+  lifespan: 10
 --- !u!1 &4176349800939210771
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineContainer: {fileID: 4686615231628228588}
-  speed: 100
+  speed: 70
   tdistance: 0
 --- !u!33 &761488417108015603
 MeshFilter:

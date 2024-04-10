@@ -15,6 +15,7 @@ public class CollisionAction : Action
 
 	public void OnTriggerEnter(Collider other)
 	{
+		Debug.Log("Trigger entered");
 		if (tagName == string.Empty || other.CompareTag(tagName))
 		{
 			onEnter?.Invoke(other.gameObject);
